@@ -456,7 +456,7 @@ static int grab_keys() {
                 fprintf(stderr, "Could not convert key to keycode\n");
                 return 1;
             }
-            for (int j = 0; j < 2; ++j) {
+            for (int j = 0; j < sizeof(modifiers) / sizeof(modifiers[0]); ++j) {
                 XGrabKey(dpy, c, keys[i].modifiers | modifiers[j], root, 1, GrabModeAsync, GrabModeAsync);
             }
         }
