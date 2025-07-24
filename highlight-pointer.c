@@ -497,11 +497,11 @@ static void print_usage(const char* name) {
         "  -h, --help      show this help message\n"
         "\n"
         "DISPLAY OPTIONS\n"
-        "  -c, --released-color COLOR  dot color when mouse button released [default: '#d62728']\n"
-        "  -p, --pressed-color COLOR   dot color when mouse button pressed [default: '#1f77b4']\n"
+        "  -c, --released-color COLOR  dot color when mouse button released [default: '#ffeb3b']\n"
+        "  -p, --pressed-color COLOR   dot color when mouse button pressed [default: '#ff0000']\n"
         "  -o, --outline OUTLINE       line width of outline or 0 for filled dot [default: 0]\n"
         "  -r, --radius RADIUS         dot radius in pixels [default: 5]\n"
-        "      --opacity OPACITY       window opacity (0.0 - 1.0) [default: 1.0]\n"
+        "      --opacity OPACITY       window opacity (0.0 - 1.0) [default: 0.5]\n"
         "      --hide-highlight        start with highlighter hidden\n"
         "      --show-cursor           start with cursor shown\n"
         "\n"
@@ -550,14 +550,14 @@ static struct option long_options[] = {{"auto-hide-cursor", no_argument, &option
 static int set_options(int argc, char* argv[]) {
     options.auto_hide_cursor = 0;
     options.auto_hide_highlight = 0;
-    options.cursor_visible = 0;
+    options.cursor_visible = 1;
     options.highlight_visible = 1;
-    options.opacity = 1.0;
+    options.opacity = 0.5;
     options.radius = 5;
     options.outline = 0;
     options.hide_timeout = 3;
-    options.pressed_color_string = "#1f77b4";
-    options.released_color_string = "#d62728";
+    options.pressed_color_string = "#ff0000";
+    options.released_color_string = "#ffeb3b";
 
     while (1) {
         int c = getopt_long(argc, argv, "c:ho:p:r:t:", long_options, NULL);
