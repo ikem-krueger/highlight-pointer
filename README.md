@@ -24,9 +24,7 @@ screen sharing, ...
 
 ## Installation
 
-Download the `highlight-pointer` binary from the [releases
-page](https://github.com/swillner/highlight-pointer/releases/latest)
-or see below to build yourself.
+See below to build yourself.
 
 ### Prerequisites
 
@@ -62,11 +60,11 @@ Usage:
   -h, --help      show this help message
 
 DISPLAY OPTIONS
-  -c, --released-color COLOR  dot color when mouse button released [default: '#d62728']
-  -p, --pressed-color COLOR   dot color when mouse button pressed [default: '#1f77b4']
+  -c, --released-color COLOR  dot color when mouse button released [default: '#ffeb3b']
+  -p, --pressed-color COLOR   dot color when mouse button pressed [default: '#ff0000']
   -o, --outline OUTLINE       line width of outline or 0 for filled dot [default: 0]
-  -r, --radius RADIUS         dot radius in pixels [default: 5]
-      --opacity OPACITY       window opacity (0.0 - 1.0) [default: 1.0]
+  -r, --radius RADIUS         dot radius in pixels [default: from cursor size]
+      --opacity OPACITY       window opacity (0.0 - 1.0) [default: 0.5]
       --hide-highlight        start with highlighter hidden
       --show-cursor           start with cursor shown
 
