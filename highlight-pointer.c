@@ -103,6 +103,17 @@ static struct {
 static void redraw();
 static int get_pointer_position(int* x, int* y);
 
+static int get_cursor_size() {
+    XFixesCursorImage* cursor_image = XFixesGetCursorImage(dpy);
+    int size = 0;
+    if (cursor_image) {
+        // Determine width and height, use the larger measurement as ‘size’
+        size = cursor_image->width > cursor_image->height ? cursor_image->width : cursor_image->height;
+        XFree(cursor_image);
+    }
+    return size;  // 0 if unavailable
+}
+
 static void show_cursor() {
     XFixesShowCursor(dpy, root);
     cursor_visible = 1;
@@ -500,7 +511,7 @@ static void print_usage(const char* name) {
         "  -c, --released-color COLOR  dot color when mouse button released [default: '#ffeb3b']\n"
         "  -p, --pressed-color COLOR   dot color when mouse button pressed [default: '#ff0000']\n"
         "  -o, --outline OUTLINE       line width of outline or 0 for filled dot [default: 0]\n"
-        "  -r, --radius RADIUS         dot radius in pixels [default: 5]\n"
+        "  -r, --radius RADIUS         dot radius in pixels [default: from cursor size]\n"
         "      --opacity OPACITY       window opacity (0.0 - 1.0) [default: 0.5]\n"
         "      --hide-highlight        start with highlighter hidden\n"
         "      --show-cursor           start with cursor shown\n"
@@ -553,7 +564,7 @@ static int set_options(int argc, char* argv[]) {
     options.cursor_visible = 1;
     options.highlight_visible = 1;
     options.opacity = 0.5;
-    options.radius = 5;
+    options.radius = get_cursor_size();
     options.outline = 0;
     options.hide_timeout = 3;
     options.pressed_color_string = "#ff0000";
@@ -638,15 +649,6 @@ static int xerror_handler(Display* dpy_p, XErrorEvent* err) {
 }
 
 int main(int argc, char* argv[]) {
-    int res;
-
-    res = set_options(argc, argv);
-    if (res < 0) {
-        return 0;
-    } else if (res > 0) {
-        return res;
-    }
-
     dpy = XOpenDisplay(NULL); /* defaults to DISPLAY env var */
     if (!dpy) {
         fprintf(stderr, "Can't open display\n");
@@ -669,6 +671,8 @@ int main(int argc, char* argv[]) {
 
     int major_version = 2;
     int minor_version = 2;
+    int res;
+
     res = XIQueryVersion(dpy, &major_version, &minor_version);
     if (res == BadRequest) {
         fprintf(stderr, "XInput2 extension version 2.2 not supported\n");
@@ -676,6 +680,13 @@ int main(int argc, char* argv[]) {
     } else if (res != Success) {
         fprintf(stderr, "Can't query XInput version\n");
         return 1;
+    }
+
+    res = set_options(argc, argv);
+    if (res < 0) {
+        return 0;
+    } else if (res > 0) {
+        return res;
     }
 
     res = init_window();
