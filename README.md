@@ -29,7 +29,7 @@ See below to build yourself.
 ### Prerequisites
 
 To build `highlight-pointer` you need the X11, Xext, Xfixes, and Xi
-libraries. On Debian/Ubuntu, just install these using
+libraries. On Debian/Ubuntu, just install these using:
 
 ```
 sudo apt-get install libx11-dev libxext-dev libxfixes-dev libxi-dev
@@ -37,7 +37,7 @@ sudo apt-get install libx11-dev libxext-dev libxfixes-dev libxi-dev
 
 ### Building
 
-Just build the `highlight-pointer` binary using
+Just build the `highlight-pointer` binary using:
 
 ```
 make
