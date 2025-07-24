@@ -322,6 +322,7 @@ static void main_loop() {
     pipe(selfpipe);
 
     while (1) {
+        XRaiseWindow(dpy, win); // needed to deal with menus, etc. overlapping the highlight window
         XFlush(dpy);
         FD_ZERO(&fds);
         FD_SET(fd, &fds);
@@ -393,11 +394,6 @@ static void main_loop() {
                     if (ev.xexpose.count < 1) {
                         redraw();
                     }
-                    continue;
-                }
-                if (ev.type == VisibilityNotify) {
-                    /* needed to deal with menus, etc. overlapping the hightlight win */
-                    XRaiseWindow(dpy, win);
                     continue;
                 }
             }
